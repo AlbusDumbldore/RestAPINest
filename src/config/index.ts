@@ -1,6 +1,9 @@
 import { plainToInstance } from 'class-transformer';
 import { validateSync } from 'class-validator';
+import { config as readEnv } from 'dotenv';
 import { AppConfigDto } from './app-config.dto';
+
+readEnv();
 
 type EnvStructure<T> = {
   [key in keyof T]: T[key] extends object ? EnvStructure<T[key]> : string | undefined;
@@ -22,7 +25,7 @@ const rawConfig = (): EnvStructure<AppConfigDto> => ({
   // },
 });
 
-export const appConfig: AppConfigDto = plainToInstance(AppConfigDto, rawConfig);
+export const appConfig: AppConfigDto = plainToInstance(AppConfigDto, rawConfig());
 const errors = validateSync(appConfig);
 
 if (errors.length) {
