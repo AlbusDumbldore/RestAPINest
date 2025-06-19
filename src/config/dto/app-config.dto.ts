@@ -1,5 +1,5 @@
 import { plainToInstance, Transform, Type } from 'class-transformer';
-import { IsInt, IsNumber, IsString, ValidateNested } from 'class-validator';
+import { IsInt, IsNumber, IsString, Max, Min, ValidateNested } from 'class-validator';
 
 export class ConfigSequelize {
   @IsNumber()
@@ -21,6 +21,8 @@ export class ConfigSequelize {
 
 export class AppConfigDto {
   @IsInt()
+  @Min(1024)
+  @Max(65535)
   @Type(() => Number)
   port: number;
   //
